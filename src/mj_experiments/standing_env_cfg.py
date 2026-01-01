@@ -1,8 +1,11 @@
 """Standing-only configuration for Unitree G1."""
 
+from mjlab.tasks.registry import register_mjlab_task
 from mjlab.tasks.velocity.config.g1.env_cfgs import (  # ty:ignore[unresolved-import]
   unitree_g1_flat_env_cfg,  # ty:ignore[unresolved-import]
 )
+from mjlab.tasks.velocity.config.g1.rl_cfg import unitree_g1_ppo_runner_cfg
+from mjlab.tasks.velocity.rl import VelocityOnPolicyRunner
 
 
 def unitree_g1_standing_env_cfg(play: bool = False):
@@ -15,3 +18,18 @@ def unitree_g1_standing_env_cfg(play: bool = False):
   cfg.commands["twist"].rel_standing_envs = 1.0  # Always standing
 
   return cfg
+
+
+def unitree_g1_standing_runner():
+  cfg = unitree_g1_ppo_runner_cfg()
+  cfg.experiment_name = "g1_standing"
+  return cfg
+
+
+register_mjlab_task(
+  task_id="Mjlab-Standing-Flat-Unitree-G1",
+  env_cfg=unitree_g1_standing_env_cfg(),
+  play_env_cfg=unitree_g1_standing_env_cfg(play=True),
+  rl_cfg=unitree_g1_ppo_runner_cfg(),
+  runner_cls=VelocityOnPolicyRunner,
+)

@@ -1,14 +1,21 @@
+[build-system]
+requires = ["uv_build>=0.8.19,<0.9.0"]
+build-backend = "uv_build"
+
 [project]
 name = "mj-experiments"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = ["mjlab>=0.0.4", "ruff>=0.14.8"]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "mjlab",
+ "ruff>=0.14.8",
+]
 
 [tool.ruff]
 indent-width = 2
-src = ["experiments"]
+src = ["mj_experiments"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "B"]
@@ -17,4 +24,8 @@ select = ["E4", "E7", "E9", "F", "I", "B"]
 dev = ["pyright>=1.1.407", "ty>=0.0.1a26"]
 
 [project.entry-points."mjlab.tasks"]
-g1_standing = "standing_policy"
+g1_standing = "mj_experiments"
+
+[tool.uv.sources]
+mujoco-warp = { git = "https://github.com/google-deepmind/mujoco_warp", rev = "e605c406363805d949b75d50dd5ffb3d79bc3f70" }
+mjlab = { path = "../mjlab/mjlab", editable = true }
